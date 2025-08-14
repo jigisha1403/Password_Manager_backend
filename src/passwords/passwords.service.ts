@@ -45,11 +45,12 @@ export class PasswordsService {
     return decryptedText.toString('utf8');
   }
 
-  async createPassword(createPasswordDto: CreatePasswordDto){
+  async createPassword(userId: string, createPasswordDto: CreatePasswordDto){
     const {websiteUrl, userName, password} = createPasswordDto;
 
     const checkWebsiteUrl = await this.passwordModel.findOne({
-      websiteUrl: websiteUrl 
+      websiteUrl: websiteUrl,
+      userId: userId
     });
 
     if(checkWebsiteUrl){
@@ -63,7 +64,8 @@ export class PasswordsService {
     await this.passwordModel.create({
       websiteUrl,
       userName,
-      password: encryptedPassword
+      password: encryptedPassword,
+      userId,
     });
 
     return {
@@ -72,13 +74,14 @@ export class PasswordsService {
     };
   };
 
-  async getAllPasswords(){
-    const all_passwords = await this.passwordModel.find();
+  async getAllPasswords(userId: string){
+    const all_passwords = await this.passwordModel.find({userId});
 
     const payload =  await Promise.all(
       all_passwords.map(async (data)=>{
       const decryptedPassword = await this.decrypt(data.password);
       return {
+        id: data._id,
         websiteUrl: data.websiteUrl,
         userName: data.userName,
         password: decryptedPassword

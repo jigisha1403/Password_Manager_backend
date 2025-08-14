@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { PasswordsService } from './passwords.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CreatePasswordDto } from './dto/create-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { Request } from '@nestjs/common';
 
 @Controller('passwords')
 export class PasswordsController {
@@ -10,14 +11,15 @@ export class PasswordsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() createPasswordDto: CreatePasswordDto) {
-    return this.passwordsService.createPassword(createPasswordDto);
+  create(@Req() req,  @Body() createPasswordDto: CreatePasswordDto) {
+    return this.passwordsService.createPassword(req.userId, createPasswordDto);
   }
 
   @Get()
   @UseGuards(AuthGuard)
-  findAll() {
-    return this.passwordsService.getAllPasswords();
+  findAll(@Request() req) {
+    const userId = req.userId;
+    return this.passwordsService.getAllPasswords(userId);
   }
 
   @Get(':id')
