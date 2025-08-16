@@ -1,6 +1,6 @@
 import { Body, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Passwords } from 'src/schemas/passwords.schema';
+import { Passwords } from '../schemas/passwords.schema';
 import { CreatePasswordDto } from './dto/create-password.dto';
 import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
 import { promisify } from 'util';

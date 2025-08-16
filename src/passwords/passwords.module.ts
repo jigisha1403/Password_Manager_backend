@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Passwords, passwordsSchema } from 'src/schemas/passwords.schema';
+import { Passwords, passwordsSchema } from '../schemas/passwords.schema';
 import { PasswordsService } from './passwords.service';
 import { PasswordsController } from './passwords.controller';
 

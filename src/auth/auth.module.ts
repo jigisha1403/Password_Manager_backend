@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthS, AuthSchema } from 'src/schemas/auth.schema';
+import { AuthS, AuthSchema } from '../schemas/auth.schema';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { RefreshToken, RefreshTokenSchema } from 'src/schemas/refresh-token.schema';
+import { RefreshToken, RefreshTokenSchema } from '../schemas/refresh-token.schema';
 
 @Module({
   imports:[
