@@ -1,22 +1,16 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import express from 'express';
-import serverless from 'serverless-http';
-
-const expressApp = express();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
+  const PORT = process.env.PORT ?? 3000;
+  const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: true,
     credentials: true,
   });
-  await app.init();
+  await app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+  });
 }
-
 bootstrap();
-
-export const handler = serverless(expressApp);
-
-
